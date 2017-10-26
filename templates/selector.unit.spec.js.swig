@@ -9,7 +9,7 @@ describe('Selector tests', () => {{ '{' }})
   {% if method.mock %}
     const mock = {{ method.mock | json_encode() | raw }};
 
-    expect({{ method.name }}(mock)).to.be.equal({{ method.result | json_encode() | raw }});
+    expect({{ method.name }}(mock)).to.be.deep.equal({{ method.result | json_encode() | raw }});
   {% endif %}
   {{ '}' }});
 {% endfor %}

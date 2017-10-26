@@ -13,14 +13,18 @@ export default function selectorCmd(args, options, logger, generator) {
       continue;
     }
 
+    const selectorMethod = selectorModule[methodName];
     const methodData = {
       name: methodName,
     };
 
     try {
+      const mock = resolveSelectorMock(selectorMethod);
+      const result = selectorMethod(mock);
+
       Object.assign(methodData, {
-        mock: resolveSelectorMock(selectorModule[methodName]),
-        result: {},
+        mock,
+        result,
       });
     } catch (e) {
       logger.error(`Could not generate tests for "${methodName}": ${e.toString()}`);
@@ -32,7 +36,7 @@ export default function selectorCmd(args, options, logger, generator) {
   generator.generate('selector.unit.spec.js', generationObject);
 };
 
-function resolveSelectorMock(selectorMethod, _resolvedMock = {}, _childRef = _resolvedMock, _nestLevel = 0) {
+function resolveSelectorMock(selectorMethod, _resolvedMock = {}, _nestLevel = 0) {
   const pingPongMock = new Proxy(_resolvedMock, disallowUndefined);
 
   if (_nestLevel === 5) {
@@ -46,10 +50,11 @@ function resolveSelectorMock(selectorMethod, _resolvedMock = {}, _childRef = _re
   } catch (e) {
     if (e instanceof PropertyNotDefinedError) {
       const property = e.property;
+      const target = e.target;
 
-      _childRef[property] = {};
+      target[property] = property;
 
-      return resolveSelectorMock(selectorMethod, _resolvedMock, _childRef[property], _nestLevel + 1);
+      return resolveSelectorMock(selectorMethod, _resolvedMock, _nestLevel + 1);
     }
 
     throw e;
