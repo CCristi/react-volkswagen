@@ -52,7 +52,7 @@ function resolveSelectorMock(selectorMethod, _resolvedMock = {}, _nestLevel = 0)
       const property = e.property;
       const target = e.target;
 
-      target[property] = property;
+      target[property] = {};
 
       return resolveSelectorMock(selectorMethod, _resolvedMock, _nestLevel + 1);
     }
