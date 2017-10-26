@@ -11,8 +11,6 @@ const getCommand = path => (args, options, logger) => {
   const generator = new Generator(templateEngine);
   const command = require(path).default;
 
-  templateEngine.setBasePath(options.root);
-
   command(args, options, logger, generator);
 };
 
