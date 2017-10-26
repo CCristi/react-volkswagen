@@ -1,0 +1,36 @@
+{
+  "plugins": [
+    ["module-resolver", {
+      "root": ["."],
+      "alias": {
+        "lib": "./lib",
+        "bin": "./bin",
+
+
+        "components": "../../ellation/cx-web/app/components",
+        "constants": "../../ellation/cx-web/app/constants",
+        "actions": "../../ellation/cx-web/app/actions",
+        "api": "../../ellation/cx-web/app/api",
+        "analytics": "../../ellation/cx-web/app/analytics",
+        "helpers": "../../ellation/cx-web/app/helpers",
+        "modules": "../../ellation/cx-web/app/modules",
+        "reducers": "../../ellation/cx-web/app/reducers",
+        "config": "../../ellation/cx-web/config",
+        "server": "../../ellation/cx-web/server",
+        "routes": "../../ellation/cx-web/app/routes",
+        "selectors": "../../ellation/cx-web/app/selectors",
+        "services": "../../ellation/cx-web/app/services",
+        "libs": "../../ellation/cx-web/app/libs",
+        "enhancers": "../../ellation/cx-web/app/enhancers",
+        "extensions": "../../ellation/cx-web/app/extensions"
+      }
+    }],
+  ],
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "6.10"
+      }
+    }]
+  ]
+}

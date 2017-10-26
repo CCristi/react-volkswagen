@@ -1,0 +1,17 @@
+#!/usr/bin/env node_modules/babel-cli/bin/babel-node.js
+
+import prog from 'caporal';
+import process from 'process';
+
+import {Generator} from 'lib/Generator';
+import selectorCmd from 'bin/commands/selector';
+
+const generator = new Generator();
+
+prog
+  .version('0.0.1')
+  .command('selector', 'Create selector test')
+  .argument('path', 'path to module')
+  .action((...args) => selectorCmd(...args, generator));
+
+prog.parse(process.argv);

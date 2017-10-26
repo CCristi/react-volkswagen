@@ -1,0 +1,16 @@
+import {{ '{' }}expect{{ '}' }} from 'chai';
+import {{ '{' }}{% for method in methods %}
+  {{ method.name }},{% endfor %}
+{{ '}' }} from '{{ modulePath | importEscape }}';
+
+describe('Selector tests', () => {{ '{' }})
+{% for method in methods %}
+  it('{{ method.name }}()', () => {{ '{' }}
+  {% if method.mock %}
+    const mock = {{ method.mock | json_encode() | raw }};
+
+    expect({{ method.name }}(mock)).to.be.equal({{ method.result | json_encode() | raw }});
+  {% endif %}
+  {{ '}' }});
+{% endfor %}
+{{ '}' }});
