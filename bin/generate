@@ -4,14 +4,25 @@ import prog from 'caporal';
 import process from 'process';
 
 import {Generator} from 'lib/Generator';
-import selectorCmd from 'bin/commands/selector';
+import {SwigEngine} from 'lib/template-engine/SwigEngine';
 
-const generator = new Generator();
+const getCommand = path => (args, options, logger) => {
+  const templateEngine = new SwigEngine();
+  const generator = new Generator(templateEngine);
+  const command = require(path).default;
 
+  templateEngine.setBasePath(options.root);
+
+  command(args, options, logger, generator);
+};
+
+// todo: create configure command to add setup root path
+// todo: add posibility to create custom random types
 prog
   .version('0.0.1')
   .command('selector', 'Create selector test')
   .argument('path', 'path to module')
-  .action((...args) => selectorCmd(...args, generator));
+  .option('--root -r', 'root path of application', prog.STRING, undefined, true)
+  .action(getCommand('./commands/selector'));
 
 prog.parse(process.argv);
